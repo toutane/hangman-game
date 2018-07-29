@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import {
   Row,
   Col,
@@ -18,10 +17,12 @@ import GameManager from "./components/GameManager";
 import Hangman from "./components/Hangman";
 import HallOfFame from "./components/HallOfFame";
 import HighScoreInput from "./components/HighScoreInput";
+import MainMenuModal from "./components/MainMenuModal";
 
 import { allword } from "./db/AllWords";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+// const allplayer = [{}, {}];
 // const allword = ["REACT", "HANGMAN", "JAVASCRIPT", "SKITTLES", "VERMEIL", "GIRANDOLE", "SANGUINE", "BEJAUNE", "ACCASTILLAGE", "EMPYREE"]
 
 class App extends Component {
@@ -33,13 +34,10 @@ class App extends Component {
     difficultyModal: true,
     colorStatus: "warning",
     score: 0,
+    mode: null,
     letters: this.generateWords(),
     keyboard: this.generateKeyboard()
   };
-
-  // componentDidMount() {
-  //   this.setState({ letters: this.generateWords() });
-  // }
 
   // Arrow fx for binding
   displayHallOfFame = hallOfFame => {
@@ -72,8 +70,9 @@ class App extends Component {
   }
 
   // Arrow fx for binding
-  newGame = () => {
+  newGame = difficulty => {
     this.setState({
+      difficulty: difficulty,
       selection: [],
       letters: this.generateWords(),
       gameState: "IN GAME",
@@ -84,6 +83,7 @@ class App extends Component {
     });
   };
 
+  // Arrow fx for binding
   handleClick = letter => {
     const { selection, gameState } = this.state;
     if (gameState == "IN GAME") {
@@ -95,6 +95,7 @@ class App extends Component {
     }
   };
 
+  // Arrow fx for binding
   setScore = letter => {
     const { letters, score } = this.state;
     if (letters.includes(letter)) {
@@ -102,6 +103,11 @@ class App extends Component {
     } else {
       this.setState({ score: score - 1 });
     }
+  };
+
+  // Arrow fx for binding
+  setMode = mode => {
+    this.setState({ mode: mode });
   };
 
   getFeedback(letter) {
@@ -132,12 +138,10 @@ class App extends Component {
     const { letters, keyboard, hallOfFame } = this.state;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">
-            HANGMAN <a className={`text-${this.state.colorStatus}`}>GAME</a>
-          </h1>
-        </header>
+      <div style={{ textAlign: "center" }}>
+        <h1 style={{ fontSize: 85, color: "white", background: "#222" }}>
+          HANGMAN <a className={`text-${this.state.colorStatus}`}>GAME</a>
+        </h1>
         <Container className="mt-3">
           <Button
             color="info"
@@ -185,40 +189,11 @@ class App extends Component {
             </div>
           </Col>
         </Row>
-        <Modal isOpen={this.state.difficultyModal}>
-          <ModalHeader>
-            <span style={{ fontSize: 40 }}>DIFFICULTY</span>
-          </ModalHeader>
-          <ModalBody className="d-flex justify-content-around">
-            <Button
-              size="lg"
-              color="success"
-              onClick={() =>
-                this.setState({ difficulty: "easy" }, this.newGame)
-              }
-            >
-              EASY
-            </Button>
-            <Button
-              size="lg"
-              color="warning"
-              onClick={() =>
-                this.setState({ difficulty: "medium" }, this.newGame)
-              }
-            >
-              MEDIUM
-            </Button>
-            <Button
-              size="lg"
-              color="danger"
-              onClick={() =>
-                this.setState({ difficulty: "hard" }, this.newGame)
-              }
-            >
-              HARD
-            </Button>
-          </ModalBody>
-        </Modal>
+        <MainMenuModal
+          difficultyModal={this.state.difficultyModal}
+          newGame={difficulty => this.newGame(difficulty)}
+          setMode={mode => this.setMode(mode)}
+        />
         <Modal
           isOpen={this.state.gameState === "GAME OVER" ? true : false}
           toggle={this.newGame}

@@ -23,7 +23,7 @@ const Hangman = ({ counter }) => (
         <CardImg src={counter === 0 ? null : HANGMAN_PARTS[counter]} />
       </CardBody>
     </Card>
-    <Button color="info" size="lg" className="mt-4">
+    <Button color="info" size="lg" className="mt-4 mb-2">
       {10 - counter} remaining attempts
     </Button>
   </div>
