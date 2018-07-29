@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, CardImg, CardBody } from "reactstrap";
 import PropTypes from "prop-types";
 
-const URL = "https://hangman-game-qtjbeiiruz.now.sh/";
+const URL = "https://hangman-game-qtjbeiiruz.now.sh";
 
 const HANGMAN_PARTS = [
   "",
