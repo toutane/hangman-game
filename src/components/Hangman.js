@@ -6,16 +6,16 @@ const URL = "https://hangman-game-qtjbeiiruz.now.sh/";
 
 const HANGMAN_PARTS = [
   "",
-  `http://${URL}/img/Hangman-01.png`,
-  `http://${URL}/img/Hangman-02.png`,
-  `http://${URL}/img/Hangman-03.png`,
-  `http://${URL}/img/Hangman-04.png`,
-  `http://${URL}/img/Hangman-05.png`,
-  `http://${URL}/img/Hangman-06.png`,
-  `http://${URL}/img/Hangman-07.png`,
-  `http://${URL}/img/Hangman-08.png`,
-  `http://${URL}/img/Hangman-09.png`,
-  `http://${URL}/img/Hangman-10.png`
+  `${URL}/img/Hangman-01.png`,
+  `${URL}/img/Hangman-02.png`,
+  `${URL}/img/Hangman-03.png`,
+  `${URL}/img/Hangman-04.png`,
+  `${URL}/img/Hangman-05.png`,
+  `${URL}/img/Hangman-06.png`,
+  `${URL}/img/Hangman-07.png`,
+  `${URL}/img/Hangman-08.png`,
+  `${URL}/img/Hangman-09.png`,
+  `${URL}/img/Hangman-10.png`
 ];
 
 const Hangman = ({ counter }) => (
