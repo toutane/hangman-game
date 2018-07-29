@@ -2,18 +2,20 @@ import React from "react";
 import { Button, Card, CardImg, CardBody } from "reactstrap";
 import PropTypes from "prop-types";
 
+const URL = "https://hangman-game-qtjbeiiruz.now.sh/";
+
 const HANGMAN_PARTS = [
   "",
-  "http://localhost:3000/img/Hangman-01.png",
-  "http://localhost:3000/img/Hangman-02.png",
-  "http://localhost:3000/img/Hangman-03.png",
-  "http://localhost:3000/img/Hangman-04.png",
-  "http://localhost:3000/img/Hangman-05.png",
-  "http://localhost:3000/img/Hangman-06.png",
-  "http://localhost:3000/img/Hangman-07.png",
-  "http://localhost:3000/img/Hangman-08.png",
-  "http://localhost:3000/img/Hangman-09.png",
-  "http://localhost:3000/img/Hangman-10.png"
+  `http://${URL}/img/Hangman-01.png`,
+  `http://${URL}/img/Hangman-02.png`,
+  `http://${URL}/img/Hangman-03.png`,
+  `http://${URL}/img/Hangman-04.png`,
+  `http://${URL}/img/Hangman-05.png`,
+  `http://${URL}/img/Hangman-06.png`,
+  `http://${URL}/img/Hangman-07.png`,
+  `http://${URL}/img/Hangman-08.png`,
+  `http://${URL}/img/Hangman-09.png`,
+  `http://${URL}/img/Hangman-10.png`
 ];
 
 const Hangman = ({ counter }) => (
