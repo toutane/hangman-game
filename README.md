@@ -12,7 +12,7 @@ Go inside the cloning directory:
  cd hangman-game
  ```
 
-## Steps - Starting the React Native App
+## Steps
 
  Then install the needed modules with the command:
  ``` shell
