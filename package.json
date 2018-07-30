@@ -7,6 +7,7 @@
     "bootswatch": "^4.1.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-dom-confetti": "0.0.10",
     "react-scripts": "1.1.4",
     "reactstrap": "^6.3.0"
   },

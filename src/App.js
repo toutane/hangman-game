@@ -10,6 +10,7 @@ import {
   ModalBody,
   ModalFooter
 } from "reactstrap";
+import Confetti from "react-dom-confetti";
 
 import Keyboard from "./components/Keyboard";
 import Letter from "./components/Letter";
@@ -25,6 +26,22 @@ const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // const allplayer = [{}, {}];
 // const allword = ["REACT", "HANGMAN", "JAVASCRIPT", "SKITTLES", "VERMEIL", "GIRANDOLE", "SANGUINE", "BEJAUNE", "ACCASTILLAGE", "EMPYREE"]
 
+const configLeft = {
+  angle: 0,
+  spread: 150,
+  startVelocity: 60,
+  elementCount: 120,
+  decay: 0.9
+};
+
+const configRight = {
+  angle: 180,
+  spread: 150,
+  startVelocity: 60,
+  elementCount: 120,
+  decay: 0.9
+};
+
 class App extends Component {
   state = {
     selection: [],
@@ -35,9 +52,20 @@ class App extends Component {
     colorStatus: "warning",
     score: 0,
     mode: null,
+    hideNav: false,
     letters: this.generateWords(),
     keyboard: this.generateKeyboard()
   };
+
+  componentDidMount() {
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
+  }
+
+  resize() {
+    this.setState({ hideNav: window.innerWidth <= 760 });
+    console.log("RESIZE");
+  }
 
   // Arrow fx for binding
   displayHallOfFame = hallOfFame => {
@@ -142,23 +170,33 @@ class App extends Component {
         <h1 style={{ fontSize: 85, color: "white", background: "#222" }}>
           HANGMAN <a className={`text-${this.state.colorStatus}`}>GAME</a>
         </h1>
-        <Container className="mt-3">
-          <Button
-            color="info"
-            size="lg"
-            onClick={() => this.setState({ difficultyModal: true })}
-          >
-            NEW GAME
-          </Button>
-          <GameManager
-            score={this.state.score}
-            gameState={this.state.gameState}
-            colorStatus={this.state.colorStatus}
-          />
-        </Container>
+        <GameManager
+          hideNav={this.state.hideNav}
+          score={this.state.score}
+          gameState={this.state.gameState}
+          colorStatus={this.state.colorStatus}
+          activeMenu={() => this.setState({ difficultyModal: true })}
+        />
+        {this.state.hideNav ? (
+          <Row>
+            <Col>
+              <Hangman counter={this.trying()} hideNav={this.state.hideNav} />
+            </Col>
+            <Col>
+              {this.state.gameState === "YOU WON!" ? (
+                hallOfFame ? (
+                  <HallOfFame entries={hallOfFame} />
+                ) : null
+              ) : null}
+            </Col>
+          </Row>
+        ) : null}
         <Row className="mt-5">
-          <Col>
-            <ButtonGroup size="lg">
+          <Col className="ml-3">
+            <ButtonGroup
+              size={this.state.hideNav ? "md" : "lg"}
+              // className="ml-3"
+            >
               {letters.map((letter, i) => (
                 <Letter
                   letter={letter}
@@ -167,9 +205,10 @@ class App extends Component {
                 />
               ))}
             </ButtonGroup>
-            <div className="mt-5 ml-5 mr-5">
+            <div className="mt-5 ml-2 mr-2">
               {keyboard.map((letter, i) => (
                 <Keyboard
+                  hideNav={this.state.hideNav}
                   letter={letter}
                   key={i}
                   onClick={this.handleClick}
@@ -178,17 +217,29 @@ class App extends Component {
               ))}
             </div>
           </Col>
-          <Col className="d-flex justify-content-around">
-            <Hangman counter={this.trying()} />
-            <div>
-              {this.state.gameState === "YOU WON!" ? (
-                hallOfFame ? (
-                  <HallOfFame entries={hallOfFame} />
-                ) : null
-              ) : null}
-            </div>
-          </Col>
+          {this.state.hideNav ? null : (
+            <Col className="d-flex justify-content-around">
+              {this.state.hideNav ? null : <Hangman counter={this.trying()} />}
+              <div>
+                {this.state.gameState === "YOU WON!" ? (
+                  hallOfFame ? (
+                    <HallOfFame entries={hallOfFame} />
+                  ) : null
+                ) : null}
+              </div>
+            </Col>
+          )}
         </Row>
+        <div className="d-flex justify-content-between">
+          <Confetti
+            active={this.state.gameState === "YOU WON!" ? true : false}
+            config={configLeft}
+          />
+          <Confetti
+            active={this.state.gameState === "YOU WON!" ? true : false}
+            config={configRight}
+          />
+        </div>
         <MainMenuModal
           difficultyModal={this.state.difficultyModal}
           newGame={difficulty => this.newGame(difficulty)}
@@ -244,6 +295,7 @@ class App extends Component {
               score={this.state.score}
               onStored={this.displayHallOfFame}
               newGame={this.newGame}
+              hideNav={this.state.hideNav}
             />
           </ModalBody>
         </Modal>

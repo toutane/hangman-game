@@ -18,7 +18,7 @@ class HighScoreInput extends Component {
   persitPlayer = e => {
     e.preventDefault();
     const newEntry = { score: this.props.score, player: this.state.player };
-    saveHOFEntry(newEntry, this.props.onStored);
+    saveHOFEntry(newEntry, this.props.onStored, this.props.hideNav ? 4 : 10);
   };
 
   render() {

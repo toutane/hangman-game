@@ -39,9 +39,9 @@ export default HallOfFame;
 // == Internal helpers ==============================================
 
 const HOF_KEY = "::Memory::HallofFame";
-const HOF_MAX_SIZE = 10;
+// const HOF_MAX_SIZE = 10;
 
-export function saveHOFEntry(entry, onStored) {
+export function saveHOFEntry(entry, onStored, HOF_MAX_SIZE) {
   entry.date = new Date().toLocaleDateString();
   entry.id = Date.now();
 
