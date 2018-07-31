@@ -18,7 +18,7 @@ import GameManager from "./components/GameManager";
 import Hangman from "./components/Hangman";
 import HallOfFame from "./components/HallOfFame";
 import HighScoreInput from "./components/HighScoreInput";
-import MainMenuModal from "./components/MainMenuModal";
+import ChooseDifficulty from "./components/ChooseDifficulty";
 
 import { allword } from "./db/AllWords";
 
@@ -48,10 +48,9 @@ class App extends Component {
     gameState: "IN GAME",
     hallOfFame: null,
     difficulty: "easy",
-    difficultyModal: true,
+    difficultyModal: false,
     colorStatus: "warning",
     score: 0,
-    mode: null,
     hideNav: false,
     letters: this.generateWords(),
     keyboard: this.generateKeyboard()
@@ -134,9 +133,9 @@ class App extends Component {
   };
 
   // Arrow fx for binding
-  setMode = mode => {
-    this.setState({ mode: mode });
-  };
+  // setMode = mode => {
+  //   this.setState({ mode: mode });
+  // };
 
   getFeedback(letter) {
     const { selection } = this.state;
@@ -167,7 +166,13 @@ class App extends Component {
 
     return (
       <div style={{ textAlign: "center" }}>
-        <h1 style={{ fontSize: 85, color: "white", background: "#222" }}>
+        <h1
+          style={
+            this.state.hideNav
+              ? { fontSize: 50, color: "white", background: "#222" }
+              : { fontSize: 85, color: "white", background: "#222" }
+          }
+        >
           HANGMAN <a className={`text-${this.state.colorStatus}`}>GAME</a>
         </h1>
         <GameManager
@@ -185,16 +190,19 @@ class App extends Component {
             <Col>
               {this.state.gameState === "YOU WON!" ? (
                 hallOfFame ? (
-                  <HallOfFame entries={hallOfFame} />
+                  <HallOfFame
+                    entries={hallOfFame}
+                    hideNav={this.state.hideNav}
+                  />
                 ) : null
               ) : null}
             </Col>
           </Row>
         ) : null}
         <Row className="mt-5">
-          <Col className="ml-3">
+          <Col>
             <ButtonGroup
-              size={this.state.hideNav ? "md" : "lg"}
+              size={this.state.hideNav ? "sm" : "lg"}
               // className="ml-3"
             >
               {letters.map((letter, i) => (
@@ -205,7 +213,7 @@ class App extends Component {
                 />
               ))}
             </ButtonGroup>
-            <div className="mt-5 ml-2 mr-2">
+            <Container className="mt-5">
               {keyboard.map((letter, i) => (
                 <Keyboard
                   hideNav={this.state.hideNav}
@@ -215,7 +223,7 @@ class App extends Component {
                   feedback={this.getFeedback(letter) ? "secondary" : "info"}
                 />
               ))}
-            </div>
+            </Container>
           </Col>
           {this.state.hideNav ? null : (
             <Col className="d-flex justify-content-around">
@@ -240,10 +248,10 @@ class App extends Component {
             config={configRight}
           />
         </div>
-        <MainMenuModal
+        <ChooseDifficulty
           difficultyModal={this.state.difficultyModal}
           newGame={difficulty => this.newGame(difficulty)}
-          setMode={mode => this.setMode(mode)}
+          // setMode={mode => this.setMode(mode)}
         />
         <Modal
           isOpen={this.state.gameState === "GAME OVER" ? true : false}

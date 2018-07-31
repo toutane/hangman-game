@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Table } from "reactstrap";
+import { Table, Container } from "reactstrap";
 
 const sortHallOfFame = (a, b) => {
   let x = a.score;
@@ -9,21 +9,24 @@ const sortHallOfFame = (a, b) => {
   if (x < y) return 1;
 };
 
-const HallOfFame = ({ entries }) => (
-  <Table>
-    <thead>
-      {entries.sort(sortHallOfFame).map(({ date, score, id, player }) => (
-        <tr key={id}>
-          <td>{player}</td>
-          <td>{score}</td>
-          <td>{date}</td>
-        </tr>
-      ))}
-    </thead>
-  </Table>
+const HallOfFame = ({ entries, hideNav }) => (
+  <div className="mr-3">
+    <Table size={hideNav ? "sm" : "lg"}>
+      <thead>
+        {entries.sort(sortHallOfFame).map(({ date, score, id, player }) => (
+          <tr key={id}>
+            <td>{player}</td>
+            <td>{score}</td>
+            <td>{date}</td>
+          </tr>
+        ))}
+      </thead>
+    </Table>
+  </div>
 );
 
 HallOfFame.propTypes = {
+  hideNav: PropTypes.bool.isRequired,
   entries: PropTypes.arrayOf(
     PropTypes.shape({
       date: PropTypes.string.isRequired,

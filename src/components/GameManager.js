@@ -2,15 +2,26 @@ import React from "react";
 import { Button } from "reactstrap";
 import PropTypes from "prop-types";
 
-const GameManager = ({ gameState, colorStatus, score, activeMenu }) => (
+const GameManager = ({
+  gameState,
+  colorStatus,
+  score,
+  activeMenu,
+  hideNav
+}) => (
   <div className="mt-3 mb-3">
-    <Button color="info" size="lg" className="mr-3" onClick={activeMenu}>
+    <Button
+      color="info"
+      size={hideNav ? "md" : "lg"}
+      className="mr-3"
+      onClick={activeMenu}
+    >
       NEW GAME
     </Button>
-    <Button color={colorStatus} size="lg">
+    <Button color={colorStatus} size={hideNav ? "md" : "lg"}>
       {gameState}
     </Button>
-    <Button color="info" className="ml-3" size="lg">
+    <Button color="info" className="ml-3" size={hideNav ? "md" : "lg"}>
       SCORE: {score}
     </Button>
   </div>

@@ -1,23 +1,28 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Container } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 
-const ChosseDifficulty = ({ setMode }) => (
-  <Container className="d-flex justify-content-around">
-    <Button size="lg" color="success" onClick={() => setMode("easy")}>
-      EASY
-    </Button>
-    <Button size="lg" color="warning" onClick={() => setMode("medium")}>
-      MEDIUM
-    </Button>
-    <Button size="lg" color="danger" onClick={() => setMode("hard")}>
-      HARD
-    </Button>
-  </Container>
+const ChooseDifficulty = ({ newGame, difficultyModal }) => (
+  <Modal isOpen={difficultyModal}>
+    <ModalHeader className="d-flex justify-content-center">
+      <span style={{ fontSize: 50 }}>DIFFICULTY</span>
+    </ModalHeader>
+    <ModalBody className="d-flex justify-content-around">
+      <Button size="lg" color="success" onClick={() => newGame("easy")}>
+        EASY
+      </Button>
+      <Button size="lg" color="warning" onClick={() => newGame("medium")}>
+        MEDIUM
+      </Button>
+      <Button size="lg" color="danger" onClick={() => newGame("hard")}>
+        HARD
+      </Button>
+    </ModalBody>
+  </Modal>
 );
 
-ChosseDifficulty.propTypes = {
-  setMode: PropTypes.func.isRequired
+ChooseDifficulty.propTypes = {
+  newGame: PropTypes.func.isRequired
 };
 
-export default ChosseDifficulty;
+export default ChooseDifficulty;

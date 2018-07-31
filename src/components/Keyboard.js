@@ -4,8 +4,8 @@ import { Button } from "reactstrap";
 const Keyboard = ({ letter, onClick, feedback, hideNav }) => (
   <Button
     color={feedback}
-    size={hideNav ? "md" : "lg"}
-    className="ml-2 mb-2"
+    size={hideNav ? "sm" : "lg"}
+    className="ml-2 mb-2 align-center"
     onClick={feedback !== "secondary" ? () => onClick(letter) : null}
   >
     {letter}

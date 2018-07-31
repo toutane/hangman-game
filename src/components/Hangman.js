@@ -36,8 +36,8 @@ const Hangman = ({ counter, hideNav }) => (
 );
 
 Hangman.propTypes = {
-  counter: PropTypes.number.isRequired,
-  hideNav: PropTypes.bool.isRequired
+  counter: PropTypes.number.isRequired
+  // hideNav: PropTypes.bool.isRequired
 };
 
 export default Hangman;
