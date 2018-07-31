@@ -47,12 +47,13 @@ class App extends Component {
     selection: [],
     gameState: "IN GAME",
     hallOfFame: null,
-    difficulty: "easy",
-    difficultyModal: false,
+    difficulty: null,
+    difficultyModal: true,
     colorStatus: "warning",
     score: 0,
     hideNav: false,
-    letters: this.generateWords(),
+    // letters: this.generateWords(),
+    letters: null,
     keyboard: this.generateKeyboard()
   };
 
@@ -82,8 +83,7 @@ class App extends Component {
     return result;
   }
 
-  generateWords() {
-    const { difficulty } = this.state || { difficulty: "easy" };
+  generateWords(difficulty) {
     const filterAllWord = allword.filter(obj => obj.difficulty === difficulty);
     const result = [];
     let oneWord = Math.floor(Math.random() * filterAllWord.length);
@@ -101,7 +101,7 @@ class App extends Component {
     this.setState({
       difficulty: difficulty,
       selection: [],
-      letters: this.generateWords(),
+      letters: this.generateWords(difficulty),
       gameState: "IN GAME",
       colorStatus: "warning",
       hallOfFame: null,
@@ -205,13 +205,15 @@ class App extends Component {
               size={this.state.hideNav ? "sm" : "lg"}
               // className="ml-3"
             >
-              {letters.map((letter, i) => (
-                <Letter
-                  letter={letter}
-                  feedback={this.getFeedback(letter) ? "visible" : "hidden"}
-                  key={i}
-                />
-              ))}
+              {letters !== null
+                ? letters.map((letter, i) => (
+                    <Letter
+                      letter={letter}
+                      feedback={this.getFeedback(letter) ? "visible" : "hidden"}
+                      key={i}
+                    />
+                  ))
+                : null}
             </ButtonGroup>
             <Container className="mt-5">
               {keyboard.map((letter, i) => (
