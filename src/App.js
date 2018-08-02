@@ -19,6 +19,9 @@ import Hangman from "./components/Hangman";
 import HallOfFame from "./components/HallOfFame";
 import HighScoreInput from "./components/HighScoreInput";
 import ChooseDifficulty from "./components/ChooseDifficulty";
+import AddWordInput from "./components/AddWordInput";
+
+import { getWords } from "./api/API";
 
 import { allword } from "./db/AllWords";
 
@@ -49,10 +52,10 @@ class App extends Component {
     hallOfFame: null,
     difficulty: null,
     difficultyModal: true,
+    AddWordModal: false,
     colorStatus: "warning",
     score: 0,
     hideNav: false,
-    // letters: this.generateWords(),
     letters: null,
     keyboard: this.generateKeyboard()
   };
@@ -62,9 +65,17 @@ class App extends Component {
     this.resize();
   }
 
+  getAllWords(difficulty) {
+    const words = [];
+    getWords(difficulty).then(word =>
+      this.setState({
+        letters: this.generateWords(words.concat(word))
+      })
+    );
+  }
+
   resize() {
     this.setState({ hideNav: window.innerWidth <= 760 });
-    console.log("RESIZE");
   }
 
   // Arrow fx for binding
@@ -83,12 +94,9 @@ class App extends Component {
     return result;
   }
 
-  generateWords(difficulty) {
-    const filterAllWord = allword.filter(obj => obj.difficulty === difficulty);
+  generateWords(words) {
     const result = [];
-    let oneWord = Math.floor(Math.random() * filterAllWord.length);
-    oneWord = filterAllWord[oneWord].word;
-    const word = oneWord.split("");
+    const word = words[Math.floor(Math.random() * words.length)].word.split("");
     while (word.length > 0) {
       const letter = word.shift();
       result.push(letter);
@@ -98,16 +106,18 @@ class App extends Component {
 
   // Arrow fx for binding
   newGame = difficulty => {
-    this.setState({
-      difficulty: difficulty,
-      selection: [],
-      letters: this.generateWords(difficulty),
-      gameState: "IN GAME",
-      colorStatus: "warning",
-      hallOfFame: null,
-      difficultyModal: false,
-      score: 0
-    });
+    this.setState(
+      {
+        difficulty: difficulty,
+        selection: [],
+        gameState: "IN GAME",
+        colorStatus: "warning",
+        hallOfFame: null,
+        difficultyModal: false,
+        score: 0
+      },
+      () => this.getAllWords(difficulty)
+    );
   };
 
   // Arrow fx for binding
@@ -255,15 +265,8 @@ class App extends Component {
           newGame={difficulty => this.newGame(difficulty)}
           // setMode={mode => this.setMode(mode)}
         />
-        <Modal
-          isOpen={this.state.gameState === "GAME OVER" ? true : false}
-          toggle={this.newGame}
-        >
-          <ModalHeader
-            toggle={this.newGame}
-            color="danger"
-            className="text-danger"
-          >
+        <Modal isOpen={this.state.gameState === "GAME OVER" ? true : false}>
+          <ModalHeader color="danger" className="text-danger">
             GAME OVER
           </ModalHeader>
           <ModalBody style={{ fontSize: 40 }}>
@@ -289,13 +292,8 @@ class App extends Component {
                 : true
               : false
           }
-          toggle={this.newGame}
         >
-          <ModalHeader
-            toggle={this.newGame}
-            color="success"
-            className="text-success"
-          >
+          <ModalHeader color="success" className="text-success">
             YOU WON!
           </ModalHeader>
           <ModalBody style={{ fontSize: 40 }}>
@@ -307,8 +305,15 @@ class App extends Component {
               newGame={this.newGame}
               hideNav={this.state.hideNav}
             />
+            <Button
+              color="warning"
+              onClick={() => this.setState({ AddWordModal: true })}
+            >
+              HELP US
+            </Button>
           </ModalBody>
         </Modal>
+        {this.state.AddWordModal ? <AddWordInput /> : null}
       </div>
     );
   }

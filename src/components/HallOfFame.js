@@ -26,7 +26,6 @@ const HallOfFame = ({ entries, hideNav }) => (
 );
 
 HallOfFame.propTypes = {
-  hideNav: PropTypes.bool.isRequired,
   entries: PropTypes.arrayOf(
     PropTypes.shape({
       date: PropTypes.string.isRequired,

@@ -23,15 +23,17 @@ class HighScoreInput extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.persitPlayer}>
-        <Label style={{ fontSize: 22 }}>Enter your name !</Label>
-        <Input
-          value={this.state.player}
-          onChange={this.handlePlayerUpdate}
-          type="text"
-        />
-        <Button color="success">CONTINUE</Button>
-      </Form>
+      <div>
+        <Form onSubmit={this.persitPlayer}>
+          <Label style={{ fontSize: 22 }}>Enter your name !</Label>
+          <Input
+            value={this.state.player}
+            onChange={this.handlePlayerUpdate}
+            type="text"
+          />
+          <Button color="success">CONTINUE</Button>
+        </Form>
+      </div>
     );
   }
 }

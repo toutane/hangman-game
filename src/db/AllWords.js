@@ -108,7 +108,7 @@ export const allword = [
     difficulty: "hard"
   },
   {
-    word: "OLYMPIADE",
+    word: "COQ",
     difficulty: "hard"
   },
   {
@@ -117,6 +117,10 @@ export const allword = [
   },
   {
     word: "TESTOSTERONE",
+    difficulty: "hard"
+  },
+  {
+    word: " CAIMAN",
     difficulty: "hard"
   }
 ];
