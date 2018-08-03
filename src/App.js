@@ -8,7 +8,8 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Fade
 } from "reactstrap";
 import Confetti from "react-dom-confetti";
 
@@ -57,7 +58,8 @@ class App extends Component {
     score: 0,
     hideNav: false,
     letters: null,
-    keyboard: this.generateKeyboard()
+    keyboard: this.generateKeyboard(),
+    validMessageAddWord: ""
   };
 
   componentDidMount() {
@@ -114,7 +116,8 @@ class App extends Component {
         colorStatus: "warning",
         hallOfFame: null,
         difficultyModal: false,
-        score: 0
+        score: 0,
+        validMessageAddWord: ""
       },
       () => this.getAllWords(difficulty)
     );
@@ -266,7 +269,11 @@ class App extends Component {
           // setMode={mode => this.setMode(mode)}
         />
         <Modal isOpen={this.state.gameState === "GAME OVER" ? true : false}>
-          <ModalHeader color="danger" className="text-danger">
+          <ModalHeader
+            style={{ fontSize: 30 }}
+            color="danger"
+            className="text-danger"
+          >
             GAME OVER
           </ModalHeader>
           <ModalBody style={{ fontSize: 40 }}>
@@ -293,7 +300,11 @@ class App extends Component {
               : false
           }
         >
-          <ModalHeader color="success" className="text-success">
+          <ModalHeader
+            style={{ fontSize: 30 }}
+            color="success"
+            className="text-success"
+          >
             YOU WON!
           </ModalHeader>
           <ModalBody style={{ fontSize: 40 }}>
@@ -305,15 +316,33 @@ class App extends Component {
               newGame={this.newGame}
               hideNav={this.state.hideNav}
             />
+          </ModalBody>
+          <ModalFooter>
+            <Fade
+              in={this.state.validMessageAddWord !== "" ? true : false}
+              className="text-success"
+              style={{ fontSize: 16 }}
+            >
+              {this.state.validMessageAddWord}
+            </Fade>
             <Button
               color="warning"
+              size="lg"
               onClick={() => this.setState({ AddWordModal: true })}
             >
-              HELP US
+              PARTICIPATE IN THE GAME
             </Button>
-          </ModalBody>
+          </ModalFooter>
         </Modal>
-        {this.state.AddWordModal ? <AddWordInput /> : null}
+        <AddWordInput
+          activeAddModal={this.state.AddWordModal}
+          addWordInputFunction={message =>
+            this.setState({
+              AddWordModal: !this.state.AddWordModal,
+              validMessageAddWord: message
+            })
+          }
+        />
       </div>
     );
   }
