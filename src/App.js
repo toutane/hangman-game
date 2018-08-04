@@ -343,6 +343,19 @@ class App extends Component {
             })
           }
         />
+        <div
+          className="d-flex justify-content-center text-muted"
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            width: "100%"
+          }}
+        >
+          Made with <i className="fas fa-heart text-danger mt-1 ml-1 mr-1" /> by{" "}
+          <a href="https://github.com/toutane" className="ml-1 mr-1">
+            @toutane
+          </a>{" "}
+        </div>
       </div>
     );
   }
