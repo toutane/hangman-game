@@ -339,6 +339,7 @@ class App extends Component {
           addWordInputFunction={message =>
             this.setState({
               AddWordModal: !this.state.AddWordModal,
+              // validMessageAddWord: message + "🎉"
               validMessageAddWord: message
             })
           }
@@ -348,7 +349,8 @@ class App extends Component {
           style={{
             position: "absolute",
             bottom: "10px",
-            width: "100%"
+            width: "100%",
+            fontSize: this.state.hideNav ? 11 : 17
           }}
         >
           Made with <i className="fas fa-heart text-danger mt-1 ml-1 mr-1" /> by{" "}

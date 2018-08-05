@@ -62,7 +62,7 @@ class AddWordInput extends Component {
         <ModalHeader
           style={{ fontSize: 30 }}
           className="text-warning"
-          toggle={this.props.addWordInputFunction}
+          toggle={() => this.props.addWordInputFunction("")}
         >
           IMPROVE THIS GAME
         </ModalHeader>
