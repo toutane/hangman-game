@@ -4,12 +4,12 @@ const api = "https://hangman-game-be-qfakrpsvbu.now.sh";
 
 // fetch projects
 export const getWords = difficulty =>
-  fetch(`${api}/words/${difficulty}`, { credentials: "include" }).then(x =>
+  fetch(`${api}words/${difficulty}`, { credentials: "include" }).then(x =>
     x.json()
   );
 
 export const postWords = newWord =>
-  fetch(`${api}/words`, {
+  fetch(`${api}words`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
