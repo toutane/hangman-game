@@ -1,6 +1,6 @@
 // Readable fetchs API
-const api = "http://localhost:3001";
-// const api = "https://focused-pike-e9496d.netlify.com";
+// const api = "http://localhost:3001";
+const api = "https://hangman-game-be-wlicrjynhn.now.sh/";
 
 // fetch projects
 export const getWords = difficulty =>
