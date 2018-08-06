@@ -1,6 +1,6 @@
 // Readable fetchs API
 // const api = "http://localhost:3001";
-const api = "https://cranky-heisenberg-af574b.netlify.com/";
+const api = "https://focused-pike-e9496d.netlify.com/";
 
 // fetch projects
 export const getWords = difficulty =>
