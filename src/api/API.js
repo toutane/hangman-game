@@ -1,6 +1,6 @@
 // Readable fetchs API
-// const api = "http://localhost:3001";
-const api = "https://hangman-game-be-qfakrpsvbu.now.sh";
+const api = "http://localhost:3001";
+// const api = "https://hangman-game-be-qfakrpsvbu.now.sh";
 
 // fetch projects
 export const getWords = difficulty =>
