@@ -48,9 +48,11 @@ const configRight = {
 
 class App extends Component {
   state = {
+    currentPlayer: "",
     selection: [],
     gameState: "IN GAME",
     hallOfFame: null,
+    hallOfFameModal: null,
     difficulty: null,
     difficultyModal: true,
     AddWordModal: false,
@@ -79,11 +81,6 @@ class App extends Component {
   resize() {
     this.setState({ hideNav: window.innerWidth <= 760 });
   }
-
-  // Arrow fx for binding
-  displayHallOfFame = hallOfFame => {
-    this.setState({ hallOfFame });
-  };
 
   generateKeyboard() {
     const result = [];
@@ -114,7 +111,8 @@ class App extends Component {
         selection: [],
         gameState: "IN GAME",
         colorStatus: "warning",
-        hallOfFame: null,
+        // hallOfFame: null,
+        hallOfFameModal: null,
         difficultyModal: false,
         score: 0,
         validMessageAddWord: ""
@@ -174,8 +172,12 @@ class App extends Component {
     }
   };
 
+  setCurrentPlayer = newPlayer => {
+    this.setState({ currentPlayer: newPlayer });
+  };
+
   render() {
-    const { letters, keyboard, hallOfFame } = this.state;
+    const { letters, keyboard, hallOfFame, hallOfFameModal } = this.state;
 
     return (
       <div style={{ textAlign: "center" }}>
@@ -201,14 +203,9 @@ class App extends Component {
               <Hangman counter={this.trying()} hideNav={this.state.hideNav} />
             </Col>
             <Col>
-              {this.state.gameState === "YOU WON!" ? (
-                hallOfFame ? (
-                  <HallOfFame
-                    entries={hallOfFame}
-                    hideNav={this.state.hideNav}
-                  />
-                ) : null
-              ) : null}
+              {/* {this.state.gameState === "YOU WON!" ? ( */}
+              {hallOfFame ? <HallOfFame hideNav={this.state.hideNav} /> : null}
+              {/* ) : null} */}
             </Col>
           </Row>
         ) : null}
@@ -243,13 +240,7 @@ class App extends Component {
           {this.state.hideNav ? null : (
             <Col className="d-flex justify-content-around">
               {this.state.hideNav ? null : <Hangman counter={this.trying()} />}
-              <div>
-                {this.state.gameState === "YOU WON!" ? (
-                  hallOfFame ? (
-                    <HallOfFame entries={hallOfFame} />
-                  ) : null
-                ) : null}
-              </div>
+              <div>{hallOfFame ? <HallOfFame /> : null}</div>
             </Col>
           )}
         </Row>
@@ -294,7 +285,7 @@ class App extends Component {
         <Modal
           isOpen={
             this.state.gameState === "YOU WON!"
-              ? hallOfFame
+              ? hallOfFameModal
                 ? null
                 : true
               : false
@@ -304,6 +295,9 @@ class App extends Component {
             style={{ fontSize: 30 }}
             color="success"
             className="text-success"
+            toggle={() =>
+              this.setState({ hallOfFame: true, hallOfFameModal: true })
+            }
           >
             YOU WON!
           </ModalHeader>
@@ -312,8 +306,11 @@ class App extends Component {
             <p>SCORE: {this.state.score}</p>
             <HighScoreInput
               score={this.state.score}
-              onStored={this.displayHallOfFame}
-              newGame={this.newGame}
+              setCurrentPlayer={this.setCurrentPlayer}
+              currentPlayer={this.state.currentPlayer}
+              setHallOfFame={() =>
+                this.setState({ hallOfFame: true, hallOfFameModal: true })
+              }
               hideNav={this.state.hideNav}
             />
           </ModalBody>

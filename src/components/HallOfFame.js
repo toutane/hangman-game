@@ -1,64 +1,54 @@
 import PropTypes from "prop-types";
-import React from "react";
-import { Table, Container } from "reactstrap";
+import React, { Component } from "react";
+import { Table } from "reactstrap";
+import { getScores } from "../api/API";
 
-const sortHallOfFame = (a, b) => {
-  let x = a.score;
-  let y = b.score;
-  if (x > y) return -1;
-  if (x < y) return 1;
-};
+class HallOfFame extends Component {
+  state = {
+    scores: []
+  };
 
-const HallOfFame = ({ entries, hideNav }) => (
-  <div className="mr-3">
-    <Table size={hideNav ? "sm" : "lg"}>
-      <thead>
-        {entries.sort(sortHallOfFame).map(({ date, score, id, player }) => (
-          <tr key={id}>
-            <td>{player}</td>
-            <td>{score}</td>
-            <td>{date}</td>
-          </tr>
-        ))}
-      </thead>
-    </Table>
-  </div>
-);
+  componentDidMount() {
+    this.getAllScores();
+  }
 
-HallOfFame.propTypes = {
-  entries: PropTypes.arrayOf(
-    PropTypes.shape({
-      date: PropTypes.string.isRequired,
-      score: PropTypes.number.isRequired,
-      id: PropTypes.number.isRequired,
-      player: PropTypes.string.isRequired
-    })
-  ).isRequired
-};
+  getAllScores() {
+    getScores().then(score =>
+      this.setState({
+        scores: score
+      })
+    );
+  }
+
+  render() {
+    const sortHallOfFame = (a, b) => {
+      let x = a.score;
+      let y = b.score;
+      if (x > y) return -1;
+      if (x < y) return 1;
+    };
+
+    return (
+      <div className="mr-3">
+        <b style={{ fontSize: 40 }} className="mb-1">
+          HALL OF <a className="text-info">FAME</a>
+        </b>
+        <Table size={this.props.hideNav ? "sm" : "lg"}>
+          <thead>
+            {this.state.scores
+              .sort(sortHallOfFame)
+              .map(({ date, score, player }, index) => (
+                <tr key={index}>
+                  <td>{player}</td>
+                  <td className="text-info">{score}</td>
+                  <td>{date}</td>
+                </tr>
+              ))}
+          </thead>
+        </Table>
+      </div>
+    );
+  }
+}
 
 export default HallOfFame;
-
-// == Internal helpers ==============================================
-
-const HOF_KEY = "::Memory::HallofFame";
-// const HOF_MAX_SIZE = 10;
-
-export function saveHOFEntry(entry, onStored, HOF_MAX_SIZE) {
-  entry.date = new Date().toLocaleDateString();
-  entry.id = Date.now();
-
-  const entries = JSON.parse(localStorage.getItem(HOF_KEY) || "[]");
-  const insertionPoint = entries.findIndex(({ score }) => score >= entry.score);
-
-  if (insertionPoint === -1) {
-    entries.push(entry);
-  } else {
-    entries.splice(insertionPoint, 0, entry);
-  }
-  if (entries.length > HOF_MAX_SIZE) {
-    entries.splice(HOF_MAX_SIZE, entries.length);
-  }
-
-  localStorage.setItem(HOF_KEY, JSON.stringify(entries));
-  onStored(entries);
-}

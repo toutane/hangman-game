@@ -1,13 +1,28 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Form, Label, Input } from "reactstrap";
-
-import { saveHOFEntry } from "./HallOfFame";
+import { postScore } from "../api/API";
+import moment from "moment";
 
 class HighScoreInput extends Component {
   state = {
-    player: ""
+    player: "",
+    errorType: false
   };
+
+  componentDidMount() {
+    this.setState(
+      {
+        player: this.props.currentPlayer
+      },
+      () => console.log(`${this.state.player} is the currentPlayer`)
+    );
+  }
+
+  componentWillUnmount() {
+    this.props.setCurrentPlayer(this.state.player);
+    console.log(`Set ${this.state.player} as the currentPlayer`);
+  }
 
   // Arrow fx for binding
   handlePlayerUpdate = e => {
@@ -17,8 +32,17 @@ class HighScoreInput extends Component {
   // Arrow fx for binding
   persitPlayer = e => {
     e.preventDefault();
-    const newEntry = { score: this.props.score, player: this.state.player };
-    saveHOFEntry(newEntry, this.props.onStored, this.props.hideNav ? 4 : 10);
+    if (this.state.player !== "") {
+      postScore({
+        score: this.props.score,
+        player: this.state.player,
+        date: moment().format("L")
+      }).then(data => {
+        console.log("retour ", data), this.props.setHallOfFame();
+      });
+    } else {
+      this.setState({ errorInput: true });
+    }
   };
 
   render() {
@@ -39,9 +63,7 @@ class HighScoreInput extends Component {
 }
 
 HighScoreInput.propTypes = {
-  score: PropTypes.number.isRequired,
-  onStored: PropTypes.func.isRequired,
-  newGame: PropTypes.func.isRequired
+  score: PropTypes.number.isRequired
 };
 
 export default HighScoreInput;
