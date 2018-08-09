@@ -27,8 +27,6 @@ import { getWords } from "./api/API";
 import { allword } from "./db/AllWords";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-// const allplayer = [{}, {}];
-// const allword = ["REACT", "HANGMAN", "JAVASCRIPT", "SKITTLES", "VERMEIL", "GIRANDOLE", "SANGUINE", "BEJAUNE", "ACCASTILLAGE", "EMPYREE"]
 
 const configLeft = {
   angle: 0,
@@ -143,11 +141,6 @@ class App extends Component {
     }
   };
 
-  // Arrow fx for binding
-  // setMode = mode => {
-  //   this.setState({ mode: mode });
-  // };
-
   getFeedback(letter) {
     const { selection } = this.state;
     return selection.includes(letter);
@@ -183,15 +176,23 @@ class App extends Component {
       <div style={{ textAlign: "center" }}>
         <h1
           style={
-            this.state.hideNav
-              ? { fontSize: 50, color: "white", background: "#222" }
+            window.innerWidth <= 760
+              ? window.innerWidth <= 350
+                ? { fontSize: 35, color: "white", background: "#222" }
+                : { fontSize: 50, color: "white", background: "#222" }
               : { fontSize: 85, color: "white", background: "#222" }
           }
         >
-          HANGMAN <a className={`text-${this.state.colorStatus}`}>GAME</a>
+          HANGMAN <a className={`text-${this.state.colorStatus}`}>GAME</a>.42
         </h1>
         <GameManager
-          hideNav={this.state.hideNav}
+          hideNav={
+            window.innerWidth <= 760
+              ? window.innerWidth <= 350
+                ? "sm"
+                : "md"
+              : "lg"
+          }
           score={this.state.score}
           gameState={this.state.gameState}
           colorStatus={this.state.colorStatus}
@@ -200,21 +201,21 @@ class App extends Component {
         {this.state.hideNav ? (
           <Row>
             <Col>
-              <Hangman counter={this.trying()} hideNav={this.state.hideNav} />
+              <Hangman
+                counter={this.trying()}
+                hideNav={window.innerWidth <= 350 ? 17 : 25}
+              />
             </Col>
             <Col>
-              {/* {this.state.gameState === "YOU WON!" ? ( */}
-              {hallOfFame ? <HallOfFame hideNav={this.state.hideNav} /> : null}
-              {/* ) : null} */}
+              {hallOfFame ? (
+                <HallOfFame hideNav={window.innerWidth <= 350 ? 17 : 25} />
+              ) : null}
             </Col>
           </Row>
         ) : null}
         <Row className="mt-5">
           <Col>
-            <ButtonGroup
-              size={this.state.hideNav ? "sm" : "lg"}
-              // className="ml-3"
-            >
+            <ButtonGroup size={this.state.hideNav ? "sm" : "lg"}>
               {letters !== null
                 ? letters.map((letter, i) => (
                     <Letter
@@ -225,7 +226,7 @@ class App extends Component {
                   ))
                 : null}
             </ButtonGroup>
-            <Container className="mt-5">
+            <Container className={window.innerWidth <= 350 ? "mt-3" : "mt-5"}>
               {keyboard.map((letter, i) => (
                 <Keyboard
                   hideNav={this.state.hideNav}
@@ -239,8 +240,8 @@ class App extends Component {
           </Col>
           {this.state.hideNav ? null : (
             <Col className="d-flex justify-content-around">
-              {this.state.hideNav ? null : <Hangman counter={this.trying()} />}
-              <div>{hallOfFame ? <HallOfFame /> : null}</div>
+              <Hangman counter={this.trying()} />
+              <div>{hallOfFame ? <HallOfFame hideNav={40} /> : null}</div>
             </Col>
           )}
         </Row>
@@ -257,7 +258,6 @@ class App extends Component {
         <ChooseDifficulty
           difficultyModal={this.state.difficultyModal}
           newGame={difficulty => this.newGame(difficulty)}
-          // setMode={mode => this.setMode(mode)}
         />
         <Modal isOpen={this.state.gameState === "GAME OVER" ? true : false}>
           <ModalHeader
@@ -318,13 +318,13 @@ class App extends Component {
             <Fade
               in={this.state.validMessageAddWord !== "" ? true : false}
               className="text-success"
-              style={{ fontSize: 16 }}
+              style={{ fontSize: this.state.hideNav ? 12 : 16 }}
             >
               {this.state.validMessageAddWord}
             </Fade>
             <Button
               color="warning"
-              size="lg"
+              size={this.state.hideNav ? "md" : "lg"}
               onClick={() => this.setState({ AddWordModal: true })}
             >
               PARTICIPATE IN THE GAME
@@ -336,7 +336,6 @@ class App extends Component {
           addWordInputFunction={message =>
             this.setState({
               AddWordModal: !this.state.AddWordModal,
-              // validMessageAddWord: message + "🎉"
               validMessageAddWord: message
             })
           }
@@ -350,7 +349,7 @@ class App extends Component {
             fontSize: this.state.hideNav ? 11 : 17
           }}
         >
-          Made with <i className="fas fa-heart text-danger mt-1 ml-1 mr-1" /> by{" "}
+          Made with <i className="fas fa-heart text-danger  ml-1 mr-1" /> by{" "}
           <a href="https://github.com/toutane" className="ml-1 mr-1">
             @toutane
           </a>{" "}

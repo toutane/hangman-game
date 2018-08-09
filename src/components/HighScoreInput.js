@@ -35,7 +35,7 @@ class HighScoreInput extends Component {
     if (this.state.player !== "") {
       postScore({
         score: this.props.score,
-        player: this.state.player,
+        player: this.state.player.trim(),
         date: moment().format("L")
       }).then(data => {
         console.log("retour ", data), this.props.setHallOfFame();

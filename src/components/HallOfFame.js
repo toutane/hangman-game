@@ -30,16 +30,22 @@ class HallOfFame extends Component {
 
     return (
       <div className="mr-3">
-        <b style={{ fontSize: 40 }} className="mb-1">
+        <b style={{ fontSize: this.props.hideNav }} className="mb-1">
           HALL OF <a className="text-info">FAME</a>
         </b>
-        <Table size={this.props.hideNav ? "sm" : "lg"}>
+        <Table size={this.props.hideNav <= 17 ? "sm" : "lg"}>
           <thead>
             {this.state.scores
               .sort(sortHallOfFame)
               .map(({ date, score, player }, index) => (
                 <tr key={index}>
-                  <td>{player}</td>
+                  <td>
+                    {this.props.hideNav <= 25
+                      ? player.length >= 5
+                        ? player.slice(0, 4) + ".."
+                        : player
+                      : player}
+                  </td>
                   <td className="text-info">{score}</td>
                   <td>{date}</td>
                 </tr>

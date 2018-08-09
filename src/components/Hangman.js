@@ -20,7 +20,11 @@ const Hangman = ({ counter, hideNav }) => (
   <div className="d-flex flex-column ml-3">
     <Card
       style={
-        hideNav ? { width: 137, height: 160 } : { width: 250, height: 290 }
+        hideNav <= 25
+          ? hideNav === 17
+            ? { width: 107, height: 130 }
+            : { width: 117, height: 140 }
+          : { width: 250, height: 290 }
       }
     >
       <CardBody>

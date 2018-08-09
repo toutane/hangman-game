@@ -10,18 +10,13 @@ const GameManager = ({
   hideNav
 }) => (
   <div className="mt-3 mb-3">
-    <Button
-      color="info"
-      size={hideNav ? "md" : "lg"}
-      className="mr-3"
-      onClick={activeMenu}
-    >
+    <Button color="info" size={hideNav} className="mr-3" onClick={activeMenu}>
       NEW GAME
     </Button>
-    <Button color={colorStatus} size={hideNav ? "md" : "lg"}>
+    <Button color={colorStatus} size={hideNav}>
       {gameState}
     </Button>
-    <Button color="info" className="ml-3" size={hideNav ? "md" : "lg"}>
+    <Button color="info" className="ml-3" size={hideNav}>
       SCORE: {score}
     </Button>
   </div>
