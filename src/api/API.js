@@ -1,6 +1,6 @@
 // Readable fetchs API
 // const api = "http://localhost:3001";
-const api = "https://hangman-game-be-eklugdbxms.now.sh/";
+const api = "https://hangman-game-be-eklugdbxms.now.sh";
 
 // fetch words
 export const getWords = difficulty =>
