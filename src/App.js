@@ -258,6 +258,7 @@ class App extends Component {
         <ChooseDifficulty
           difficultyModal={this.state.difficultyModal}
           newGame={difficulty => this.newGame(difficulty)}
+          hideNav={this.state.hideNav}
         />
         <Modal isOpen={this.state.gameState === "GAME OVER" ? true : false}>
           <ModalHeader
