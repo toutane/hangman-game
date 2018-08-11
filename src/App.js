@@ -109,7 +109,6 @@ class App extends Component {
         selection: [],
         gameState: "IN GAME",
         colorStatus: "warning",
-        // hallOfFame: null,
         hallOfFameModal: null,
         difficultyModal: false,
         score: 0,
