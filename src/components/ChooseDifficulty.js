@@ -5,7 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 const ChooseDifficulty = ({ newGame, difficultyModal, hideNav }) => (
   <Modal isOpen={difficultyModal}>
     <ModalHeader className="d-flex justify-content-center">
-      <span style={{ fontSize: hideNav ? 30 : 50 }}>CHOOSE DIFFICULTY</span>
+      <span style={{ fontSize: hideNav ? 30 : 50 }}>CHOOSE DIFFICULTY:</span>
     </ModalHeader>
     <ModalBody className="d-flex justify-content-around">
       <Button
